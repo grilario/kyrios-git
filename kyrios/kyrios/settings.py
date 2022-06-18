@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'apps.communities',
     'apps.tasks',
     'apps.conversations',
+    'apps.repositories',
 ]
 
 MIDDLEWARE = [
