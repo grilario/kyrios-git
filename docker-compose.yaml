@@ -1,0 +1,30 @@
+version: "3.9"
+   
+services:
+  db:
+    image: mysql
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=kyrios
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=123
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    command: python kyrios/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_DATABASE=kyrios
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=123
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+    depends_on:
+      - db
