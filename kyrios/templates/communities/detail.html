@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Kyrios | {{ community.name }} {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+{% endblock %}
+
+{% block content %}
+  {% include 'header.html' %}
+  <img src="/media/{{ community.pictureName }}_130x.jpg" alt="">
+  {{ community.name }}
+{% endblock %}
+
