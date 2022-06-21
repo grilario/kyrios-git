@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'apps.tasks',
     'apps.conversations',
     'apps.repositories',
+    'apps.forms'
 ]
 
 MIDDLEWARE = [
@@ -85,6 +86,8 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = ['apps.accounts.auth.EmailBackend']
 
 AUTH_USER_MODEL = 'accounts.Account'
+
+LOGIN_URL = '/login'
 
 LOGIN_REDIRECT_URL = '/'
 
