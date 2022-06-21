@@ -25,6 +25,9 @@ class Community(models.Model):
 
     def __str__(self):
         return self.name
+
+    def pictureName(self):
+        return os.path.splitext(self.picture.name)[0]
     
     def save(self, *args, **kwargs):
       if self.picture and not default_storage.exists(self.picture.path):

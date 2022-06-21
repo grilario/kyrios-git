@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load formbuilder static %}
+
+{% block title %} Kyrios | Login {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <h1 class="title text-center" >Entrar em Kyrios</h1>
+  <div class="form-container">
+      <form action="/signup/" method="post">
+          {% csrf_token %}
+          {{ form|build_form }}
+          <button class="button" type="submit">Entrar</button>
+      </form>
+  </div>
+  <div class="message-container">
+      <p>Não tem uma conta? <a href="/signup">Crie sua conta.</a></p>
+  </div>
+{% endblock %}
+

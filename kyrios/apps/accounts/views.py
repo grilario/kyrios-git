@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
-# Create your views here.
+from apps.accounts.forms import UserForm
+
+def register(request):
+  if request.POST:
+    form = UserForm(request.POST)
+
+    if form.is_valid():
+      form.save()
+
+      return redirect('/')
+  
+  form = UserForm()
+  context = {
+    'form': form
+  }
+
+  return render(request, 'accounts/register.html', context)
+  
