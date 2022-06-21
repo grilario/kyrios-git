@@ -1,0 +1,133 @@
+@use 'base';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 3rem 2rem;
+}
+
+.repositories {
+  width: 30rem;
+  max-width: 30%;
+
+  .subtitle {
+    margin-bottom: 2rem;
+  }
+
+  .repository {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+
+    border-radius: 8px;
+    background-color: base.$background-widgets;
+
+    .profile {
+      width: 2.8rem;
+      height: 2.8rem;
+      border-radius: 50%;
+    }
+    
+    .name {
+      flex: 1;
+      margin: 0 1.5rem;
+      font-size: 1.4rem;
+      color: base.$light-color;
+    }
+
+    svg {
+      color: base.$light-color;
+    }
+  }
+}
+
+.activities {
+  width: 62rem;
+  max-width: 40%;
+
+  .subtitle {
+    margin-bottom: 2rem;
+  }
+}
+
+.activity {
+  width: 100%;
+  background-color: base.$background-widgets;
+  border-radius: 15px;
+  padding: 2rem;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .profile {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+    }
+
+    .name {
+      flex: 1;
+      margin-left: 2rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: base.$light-color;
+
+      & > span {
+        font-weight: 400;
+      }
+    }
+    
+    svg {
+      color: base.$light-color;
+    }
+  }
+
+  .divider {
+    width: 100%;
+    margin: 1.5rem auto;
+    height: 1px;
+    background-color: base.$gray-color;
+  }
+
+  .content {
+    .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: base.$light-color;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      color: base.$light-color;
+    }
+  }
+
+  .footer {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    .actions {
+      font-size: 2rem;
+      color: base.$light-color;
+
+      i {
+        margin-right: 1.5rem;
+      }
+    }
+
+    .time {
+      font-size: 1.2rem;
+      color: base.$light-color;
+    }
+  }
+}
