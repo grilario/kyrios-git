@@ -9,7 +9,7 @@
 
 {% block content %}
   <h1 class="title text-center" >Entrar em Kyrios</h1>
-  <div class="form-container">
+  <div class="form-container" enctype="multipart/form-data">
       <form action="/signup/" method="post">
           {% csrf_token %}
           {{ form|build_form }}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Repository, RepositoryAccess, RepositoryStar, RepositoryTask
+from .models import Repository, RepositoryAccess, RepositoryTask
 
 # Register your models here.
-admin.site.register([Repository, RepositoryAccess, RepositoryStar, RepositoryTask])
+admin.site.register([Repository, RepositoryAccess, RepositoryTask])

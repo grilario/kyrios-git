@@ -10,9 +10,9 @@ from utils.generators import generateID, renameFileWithUUID
 
 class Task(models.Model):
     id = models.CharField(primary_key=True, default=generateID, max_length=12)
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=500)
-    delivery_to = models.DateTimeField(auto_now=True)
+    title = models.CharField('Título', max_length=100)
+    description = models.CharField('Descrição', max_length=500)
+    delivery_to = models.DateTimeField('Data de entrega')
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -24,6 +24,11 @@ class Attachment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        uuid, filename = self.file.name.split('_', 1)
+
+        return filename
+
+    def link(self):
         uuid, filename = self.file.name.split('_', 1)
 
         return uuid + '/' + filename

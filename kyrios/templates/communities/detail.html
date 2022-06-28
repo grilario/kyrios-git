@@ -4,12 +4,24 @@
 {% block title %} Kyrios | {{ community.name }} {% endblock %}
 
 {% block style %}
-  <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/community.css' %}" />
 {% endblock %}
 
 {% block content %}
   {% include 'header.html' %}
-  <img src="/media/{{ community.pictureName }}_130x.jpg" alt="">
-  {{ community.name }}
+  <main>
+    <div class="header">
+      <div class="image">
+        <img src="/media/{{ community.pictureName }}_210x.jpg" alt="">
+        <h2>{{ community.name }}</h2>
+      </div>
+    </div>
+    <p class="description">{{ community.description }}</p>
+    {% if community.members.count == 1 %}
+    <p class="members"><span>{{ community.members.count }}</span> membro</p>
+    {% else %}
+    <p class="members"><span>{{ community.members.count }}</span> membros</p>
+    {% endif %}
+  </main>
 {% endblock %}
 

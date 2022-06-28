@@ -1,0 +1,67 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Kyrios | Home{%endblock%} 
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock%} 
+
+{% block content %}
+{% include 'header.html' %}
+<div class="container">
+  <div class="repositories">
+    <h2 class="subtitle">Repositorios</h2>
+    {% for repository in repositories %}
+    <div class="repository">
+      <img src="{% static 'images/profile.jpg' %}" alt="" class="profile" />
+      <p class="name">{{ repository.name }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="activities">
+    <h2 class="subtitle">Atividade</h2>
+
+    <div class="activity">
+      <div class="header">
+        <img src="{% static 'images/profile.jpg' %}" alt="" class="profile" />
+        <p class="name">Grilo <span>postou um novo desafio em</span> Animais</p>
+      </div>
+      <div class="divider"></div>
+      <div class="content">
+        <p class="title">Atividade 5</p>
+        <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elit sed pharetra ut sit vel arcu, sit. Elementum posuere tincidunt dolor et erat. Mattis venenatis enim, proin consectetur. Tellus eu phasellus quis mi purus enim habitasse viverra.</div>
+      </div>
+      <div class="footer">
+        <span class="time">HÁ 10 HORAS</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="communities">
+    <h2 class="subtitle">Comunidades</h2>
+
+    <form action="/community/enter/" class="enter-community">
+      <label for="communityID">Entrar em uma comunidade</label>
+      <input
+        type="text"
+        name="communityID"
+        id="communityID"
+        placeholder="Entrar em uma comunidade"
+      />
+      <button type="submit">Entrar</button>
+    </form>
+
+    {% for community in communities %}
+    <div class="community">
+      <img class="background" src="/media/{{ community.pictureName }}_70x.jpg" alt="">
+      <a class="content" href="/community/{{community.id}}">
+        <h3>{{ community.name }}</h3>
+        <p>{{ community.description }}</p>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

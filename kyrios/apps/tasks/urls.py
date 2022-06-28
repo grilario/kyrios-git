@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -6,7 +6,10 @@ urlpatterns = [
     path('all/', view=views.list, name='listTasks'),
     path('create/', view=views.create, name='createTask'),
     path('<str:taskID>/', view=views.get, name='getTask'),
-    path('<str:taskID>/send', view=views.send, name='sendTask'),
-    # path('<uuid:taskID>/edit/', view=views.index, name='editTask'),
-    # path('<uuid:taskID>/delete/', view=views.index, name='deleteTask'),
+    path('<str:taskID>/edit/', view=views.edit, name='editTask'),
+    path('<str:taskID>/delete/', view=views.delete, name='deleteTask'),
+    path('<str:taskID>/info/refs', views.get_info_refs, name='get_info_refs'),
+    path('<str:taskID>/git-upload-pack', views.service_rpc, name='service_rpc'),
+    path('<str:taskID>/git-receive-pack', views.service_rpc, name='service_rpc'),
+    path('<str:repository>/<str:username>/', include('apps.repositories.urls'))
 ]

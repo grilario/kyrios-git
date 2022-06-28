@@ -1,0 +1,85 @@
+@use 'base';
+@use 'form';
+
+form {
+  width: 80%;
+  max-width: 400px;
+  margin: 4rem auto;
+
+  .input-group .picture .image,
+  .input-group .picture .image img {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .input-group .picture .image:hover::after {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .button {
+    display: block;
+    padding: 1rem 2rem;
+    margin: 0 auto;
+  }
+}
+
+main {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+main .header {
+  margin-top: 4rem;
+  position: relative;
+  line-height: 0;
+  border-radius: 10px;
+  overflow: hidden;
+
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: 200ms;
+    z-index: 45;
+  }
+
+  .image {
+    width: 100%;
+  }
+
+  h2 {
+    position: absolute;
+    left: 1.3rem;
+    bottom: 1.3rem;
+    
+    font-size: 2.6rem;
+    color: var(--color-text-light);
+    line-height: 3rem;
+    z-index: 50;
+  }
+}
+
+p.description {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  padding: 0 1.3rem;
+}
+
+p.members {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  padding: 0 1.3rem;
+
+  span {
+    font-weight: bold;
+  }
+}

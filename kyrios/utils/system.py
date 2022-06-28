@@ -15,6 +15,7 @@ def run_command(cmd, data, location, chw):
 
     output = None
     cwd = os.getcwd()
+    location = os.path.realpath(location)
 
     if location is not None and chw is True:
         cwd = location

@@ -16,9 +16,9 @@ UserModel = get_user_model()
 
 class Community(models.Model):
     id = models.CharField(primary_key=True, default=generateID, max_length=12)
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=300)
-    picture = models.ImageField(blank=True, upload_to=generateNameFile)
+    name = models.CharField('Nome', max_length=100)
+    description = models.CharField('Descrição', max_length=300)
+    picture = models.ImageField('Imagem', blank=True, upload_to=generateNameFile)
     members = models.ManyToManyField(UserModel, through='Member', through_fields=('community', 'account'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -31,13 +31,15 @@ class Community(models.Model):
     
     def save(self, *args, **kwargs):
       if self.picture and not default_storage.exists(self.picture.path):
-          filename = os.path.splitext(self.picture.name)[0] + '.jpg'
+        filename = os.path.splitext(self.picture.name)[0] + '.jpg'
 
-          image = Image.open(self.picture)
-          imageTmp = BytesIO()
-          image.save(imageTmp, format='JPEG', quality=100)
+        image = Image.open(self.picture)
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        imageTmp = BytesIO()
+        image.save(imageTmp, format='JPEG', quality=100)
 
-          self.picture.save(filename, ContentFile(
+        self.picture.save(filename, ContentFile(
               imageTmp.getvalue()), save=False)
       super(Community, self).save(*args, **kwargs)
 
@@ -98,6 +100,8 @@ def auto_generate_different_images_sizes(sender, instance, **kwargs):
         return False
 
     image = Image.open(instance.picture)
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
 
     height = image.height
     width = image.width

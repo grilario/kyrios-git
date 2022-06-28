@@ -1,4 +1,4 @@
-{% load formbuilder %}
+{% load formbuilder static %}
 
 <div class="input-group{% if field.errors %} has-error{% endif %}">
     {% if field|is_password %}
@@ -7,7 +7,10 @@
       {% endif %}
 
       <div class="{{ classes.value }} {% if field|is_multiple_checkbox %}multiple-checkbox{% endif %}">
-          {{ field }}
+        <div class="input-password">
+            {{ field }}
+            <i class="bi bi-eye-fill"></i>
+        </div>
 
           {% for error in field.errors %}
               <span class="help-block {{ form.error_css_class }}">{{ error }}</span>
@@ -21,11 +24,18 @@
       </div>
     {% elif field|is_image %}
         {% if field.auto_id %}
-            <label class="control-label {{ classes.label }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.label }}</label>
+            <label class="control-label text-center {{ classes.label }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.label }}</label>
         {% endif %}
 
-        <div class="{{ classes.value }} {% if field|is_multiple_checkbox %}multiple-checkbox{% endif %}">
-            {{ field }}
+        <div class="picture {{ classes.value }} {% if field|is_multiple_checkbox %}multiple-checkbox{% endif %}">
+            <input type="file" name="picture" accept="image/*" id="{{ field.auto_id }}">
+            <label class="image" for="{{ field.auto_id }}">
+                {% if field.value.url %}
+                <img src="{{  field.value.url }}">
+                {% else %}
+                <img src="{% static '/images/profile.jpg' %}">
+                {% endif %}
+            </label>
 
             {% for error in field.errors %}
                 <span class="help-block {{ form.error_css_class }}">{{ error }}</span>

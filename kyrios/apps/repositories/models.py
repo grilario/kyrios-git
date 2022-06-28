@@ -46,20 +46,11 @@ class Repository(models.Model):
     creation_date = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
-    private = models.BooleanField(default=False)
 
     objects = RepositoryManager()
 
     def __str__(self):
         return '{0}\'s {1}'.format(self.owner.username, self.name)
-
-    @property
-    def stars(self):
-        """
-            Property for how many stars this repository has.
-        """
-
-        return RepositoryStar.objects.filter(repository_id=self.id).count()
 
     @property
     def accesses(self):
@@ -104,19 +95,6 @@ class RepositoryAccess(models.Model):
 
     def __str__(self):
         return '{0} has access to {1}'.format(self.user.username, self.repository.name)
-
-
-class RepositoryStar(models.Model):
-    """
-        A one-to-many model for keeping stars of a repository.
-    """
-
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{0}\'s star for {1}'.format(self.user.username, self.repository.name)
 
 class RepositoryTask(models.Model):
     """

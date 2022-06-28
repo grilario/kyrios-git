@@ -1,3 +1,4 @@
+{% load static %}
 <header class="header">
   <div class="logo">
     <h1>KYRIOS</h1>
@@ -21,7 +22,11 @@
       <li>
         <details>
           <summary>
-            <i class="bi bi-circle-fill"></i>
+            {% if user.picture %}
+            <img src="/media/{{ user.get_picture }}_40x.jpg">
+            {% else %}
+            <img src="{% static 'images/profile.jpg' %}">
+            {% endif %}
           </summary>
           <details-menu>
             <a href="/user">Seu perfil</a>

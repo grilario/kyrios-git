@@ -16,12 +16,17 @@ class Account(AbstractUser):
     picture = models.ImageField(blank=True, upload_to=generateNameFile)
     biography = models.CharField(max_length=300, blank=True)
 
+    def get_picture(self):
+        return os.path.splitext(self.picture.name)[0]
+
     # convert image to jpeg
     def save(self, *args, **kwargs):
         if self.picture and not default_storage.exists(self.picture.path):
             filename = os.path.splitext(self.picture.name)[0] + '.jpg'
 
             image = Image.open(self.picture)
+            if image.mode != 'RGB':
+                image = image.convert('RGB')
             imageTmp = BytesIO()
             image.save(imageTmp, format='JPEG', quality=100)
 
@@ -76,6 +81,8 @@ def auto_generate_different_images_sizes(sender, instance, **kwargs):
         return False
 
     image = Image.open(instance.picture)
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
 
     height = image.height
     width = image.width

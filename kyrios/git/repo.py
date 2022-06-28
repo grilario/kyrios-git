@@ -145,7 +145,7 @@ class Repo:
         r = '-r' if recursive else ''   # if recursive is set to 'True' then a '-r' option is added to command.
         cmd = 'git ls-tree --full-tree {0} {1}'.format(r, rev)
         git_output = run_command(cmd=cmd, data=None, location=self.location, chw=True).split('\n')[:-1]
-
+        
         tree_contents = []
         for item in git_output:
             kind, path = item.split()[1], '{0}'.format(item.split()[3])
