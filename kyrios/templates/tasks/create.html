@@ -12,7 +12,21 @@
   <form enctype="multipart/form-data" action="./" method="post">
     {% csrf_token %}
     {{ form|build_form }}
+    <div class="input-group" >
+      <label>Anexos</label>
+      <input type="file" name="file">
+      <button class="button" type="button" id="button">Novo campo</button>
+    </div>
     <button class="button" type="submit">Criar</button>
   </form>
+  <script>
+    const input = document.querySelector('[name="file"]')
+    const inputClean = input.cloneNode()
+    const button = document.getElementById('button')
+
+    button.addEventListener('click', () => {
+      input.parentNode.insertBefore(inputClean.cloneNode(), button)
+    })
+  </script>
 {% endblock %}
 

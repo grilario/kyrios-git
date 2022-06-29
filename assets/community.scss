@@ -22,6 +22,12 @@ form {
     padding: 1rem 2rem;
     margin: 0 auto;
   }
+
+  #button {
+    font-size: 1.4rem;
+    padding: .8rem 1rem;
+    margin-top: 1rem;
+  }
 }
 
 main {
@@ -30,7 +36,7 @@ main {
   margin: 0 auto;
 }
 
-main .header {
+main > .header {
   margin-top: 4rem;
   position: relative;
   line-height: 0;
@@ -64,6 +70,37 @@ main .header {
     line-height: 3rem;
     z-index: 50;
   }
+
+  .settings {
+    position: absolute;
+    top: 1.3rem;
+    right: 1.3rem;
+    font-size: 1.8rem;
+    line-height: 1.6rem;
+    color: var(--color-text-light);
+    z-index: 50;
+  
+    summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    &[open] summary::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 80;
+      cursor: default;
+      background: transparent;
+    }
+  }
 }
 
 p.description {
@@ -81,5 +118,101 @@ p.members {
 
   span {
     font-weight: bold;
+  }
+}
+
+.activities {
+  width: 100%;
+  max-width: 700px;
+  margin: 3rem auto 0 auto;
+
+  .subtitle {
+    margin-bottom: 2rem;
+  }
+}
+
+.activity {
+  width: 100%;
+  background-color: var(--color-background-widget);
+  border-radius: 15px;
+  padding: 2rem;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .profile {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+    }
+
+    .name {
+      flex: 1;
+      margin-left: 2rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--color-text);
+
+      & > span {
+        font-weight: 400;
+      }
+    }
+    
+    svg {
+      color: var(--color-text);
+    }
+
+  }
+
+  .divider {
+    width: 100%;
+    margin: 1.5rem auto;
+    height: 1px;
+    background-color: var(--color-gray);
+  }
+
+  .content {
+    .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      color: var(--color-text);
+    }
+  }
+
+  .footer {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    .actions {
+      font-size: 2rem;
+      color: var(--color-text);
+
+      i {
+        margin-right: 1.5rem;
+      }
+    }
+
+    .time {
+      font-size: 1.2rem;
+      color: var(--color-text);
+    }
+  }
+
+  &:not(:first-child) {
+    margin-top: 2rem;
+  }
+
+  &:last-child {
+    margin-bottom: 4rem;
   }
 }

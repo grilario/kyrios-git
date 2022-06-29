@@ -14,6 +14,15 @@
       <div class="image">
         <img src="/media/{{ community.pictureName }}_210x.jpg" alt="">
         <h2>{{ community.name }}</h2>
+        <details class="settings">
+          <summary>
+            <i class="bi bi-pencil-square"></i>
+          </summary>
+          <details-menu>
+            <a href="/community/{{ community.id }}/edit">Editar comunidade</a>
+            <a href="/community/{{ community.id }}/delete">Excluir comunidade</a>
+          </details-menu>
+        </details>
       </div>
     </div>
     <p class="description">{{ community.description }}</p>
@@ -22,6 +31,31 @@
     {% else %}
     <p class="members"><span>{{ community.members.count }}</span> membros</p>
     {% endif %}
+
+    <div class="activities">
+      {% for activity in activities %}
+      <div class="activity">
+        <a href="./task/{{ activity.id }}">
+        <div class="header">
+          {% if activity.account.picture %}
+          <img src="/media/{{ activity.account.get_picture }}_40x.jpg" class="profile">
+          {% else %}
+          <img src="{% static 'images/profile.jpg' %}" class="profile">
+          {% endif %}
+          <p class="name">{{ activity.account.username }} <span>postou uma nova atividade</span></p>
+        </div>
+        <div class="divider"></div>
+        <div class="content">
+          <p class="title">{{ activity.title }}</p>
+          <p class="message">{{ activity.description }}</p>
+        </div>
+        <div class="footer">
+          <span class="time">{{ activity.created_at }}</span>
+        </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
   </main>
 {% endblock %}
 

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static formbuilder %}
+
+{% block title %} Kyrios | Editar Comunidade {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/community.css' %}" />
+{% endblock %}
+
+{% block content %}
+  {% include 'header.html' %}
+  <form enctype="multipart/form-data" action="/community/create/" method="post">
+    {% csrf_token %}
+    {{ form|build_form }}
+    <button class="button" type="submit">Salvar</button>
+  </form>
+{% endblock %}
+

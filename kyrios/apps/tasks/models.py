@@ -4,6 +4,7 @@ from django.db import models
 from django.dispatch import receiver
 
 from apps.communities.models import Community
+from apps.accounts.models import Account
 
 from utils.generators import generateID, renameFileWithUUID
 
@@ -14,6 +15,7 @@ class Task(models.Model):
     description = models.CharField('Descrição', max_length=500)
     delivery_to = models.DateTimeField('Data de entrega')
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

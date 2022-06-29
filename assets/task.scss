@@ -7,6 +7,42 @@ main {
   margin: 4rem auto;
 }
 
+.title {
+  position: relative;
+}
+
+.settings {
+  position: absolute;
+  top: 1.3rem;
+  right: 1.3rem;
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.6rem;
+  color: var(--color-text);
+  z-index: 50;
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &[open] summary::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 80;
+    cursor: default;
+    background: transparent;
+  }
+}
+
 .delivery {
   font-size: 1.1rem;
 }
@@ -57,19 +93,58 @@ main {
   }
 }
 
-.repository {
-  width: 100%;
-  max-width: 800px;
-  min-height: 300px;
-  margin: 6rem auto 0 auto;
-  border-radius: 10px;
-  overflow: hidden;
+.submit {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  .header {
-    width: 100%;
-    height: 60px;
-    background-color: rgba($color: #000000, $alpha: 0.6);
+  a {
+    display: inline-block;
+    margin: 0 auto;
+    padding: .8rem 1.8rem;
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
   }
 
-  background-color: var(--color-background-widget);
+  span {
+    text-align: center;
+    display: block;
+    font-size: 1.2rem;
+    color: var(--color-text);
+  }
+}
+
+.shipments {
+  width: 100%;
+  max-width: 300px;
+  margin: 4rem auto 0 auto;
+
+  h3 {
+    font-size: 1.6rem;
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .shipment {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: .8rem 2rem;
+    font-size: 1.2rem;
+    color: var(--color-text);
+    border-radius: 5px;
+    background-color: var(--color-background-widget);
+    
+    img {
+      width: 30px;
+      border-radius: 50%;
+    }
+    
+    &:not(:first-child) {
+      margin-top: 1rem;
+    }
+  }
 }

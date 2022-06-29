@@ -30,7 +30,7 @@
         <div class="picture {{ classes.value }} {% if field|is_multiple_checkbox %}multiple-checkbox{% endif %}">
             <input type="file" name="picture" accept="image/*" id="{{ field.auto_id }}">
             <label class="image" for="{{ field.auto_id }}">
-                {% if field.value.url %}
+                {% if field.value %}
                 <img src="{{  field.value.url }}">
                 {% else %}
                 <img src="{% static '/images/profile.jpg' %}">

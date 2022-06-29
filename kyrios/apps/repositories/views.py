@@ -12,25 +12,28 @@ def view_repository(request, communityID, username, repository, rev='HEAD'):
     """
         View for showing repository objects inside the given revision (either trees or blobs).
     """
+    try:
 
-    path1 = '/community' + '/' + communityID + '/' + 'task' + '/' + repository + '/' + username
-    path2 = '/' + username + '/' + repository + '.git'
-    path = path2 + request.path_info.split(path1)[1]
+        path1 = '/community' + '/' + communityID + '/' + 'task' + '/' + repository + '/' + username
+        path2 = '/' + username + '/' + repository + '.git'
+        path = path2 + request.path_info.split(path1)[1]
 
-    requested_repo = Repo(Repo.get_repository_location(username, repository))
-    objects = _parse_repo_url(path, requested_repo, rev)
+        requested_repo = Repo(Repo.get_repository_location(username, repository))
+        objects = _parse_repo_url(path, requested_repo, rev)
 
-    if objects is None:
+        if objects is None:
+            raise Http404()
+
+        context = {
+            'repo_name': repository,
+            'repo_owner': username,
+            'repo_lsmsg': requested_repo.get_latest_status,
+            'objects': objects,
+        }
+
+        return render(request, 'repositories/detail.html', context)
+    except:
         raise Http404()
-
-    context = {
-        'repo_name': repository,
-        'repo_owner': username,
-        'repo_lsmsg': requested_repo.get_latest_status,
-        'objects': objects,
-    }
-
-    return render(request, 'repositories/detail.html', context)
 
 
 def _parse_repo_url(request_path, repository, rev):

@@ -1,7 +1,9 @@
 {% load static %}
 <header class="header">
   <div class="logo">
-    <h1>KYRIOS</h1>
+    <a href="/">
+      <h1>KYRIOS</h1>
+    </a>
   </div>
   <nav class="navigation">
     <ul>
@@ -14,8 +16,10 @@
             <i class="bi bi-plus-lg"></i>
           </summary>
           <details-menu>
-            <a href="#">Criar comunidade</a>
-            <a href="#">Criar repositorio</a>
+            <a href="/community/create">Criar comunidade</a>
+            {% if community %}
+            <a href="/community/{{ community.id }}/task/create">Criar atividade</a>
+            {% endif %}
           </details-menu>
         </details>
       </li>
@@ -29,12 +33,8 @@
             {% endif %}
           </summary>
           <details-menu>
-            <a href="/user">Seu perfil</a>
-            <a href="#">Suas comunidades</a>
-            <a href="#">Seus repositorios</a>
-            <div class="divider"></div>
-            <a href="#">Configurações</a>
-            <a href="#">Sair</a>
+            <a href="/account">Configurações</a>
+            <a href="/accounts/logout">Sair</a>
           </details-menu>
         </details>
       </li>

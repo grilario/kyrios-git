@@ -10,7 +10,17 @@
 {% block content %}
   {% include 'header.html' %}
   <main>
-    <h2 class="title">{{ task.title }}</h2>
+    <h2 class="title">{{ task.title }}
+      <details class="settings">
+        <summary>
+          <i class="bi bi-pencil-square"></i>
+        </summary>
+        <details-menu>
+          <a href="./edit">Editar atvidade</a>
+          <a href="./delete">Excluir atividade</a>
+        </details-menu>
+      </details>
+    </h2>
     <p class="delivery">{{ task.delivery_to }}</p>
     <p class="description">{{ task.description }}</p>
 
@@ -27,14 +37,25 @@
     {% endfor %}
     </div>
 
-    <div class="repository">
-      <div class="header"></div>
-      <div class="content">
-        <p>Para enviar a sua atividade voçê deve criar um repositório git com a seguinte origem: <span>{{ location }}</span></p>
+    {% if isOrganizer %}
+      <div class="shipments">
+        <h3>Envios</h3>
+        {% for shipment in shipments %}
+          <a href="./{{ shipment.username }}" class="shipment">
+            {% if user.picture %}
+            <img src="/media/{{ user.get_picture }}_40x.jpg">
+            {% else %}
+            <img src="{% static 'images/profile.jpg' %}">
+            {% endif %}
+            {{ shipment.username }}
+          </a>
+        {% endfor %}
       </div>
-    </div>
-    {% for object in objects %}
-      <p>{{ object }}</p>
-    {% endfor %}
+    {% else %}
+      <div class="submit">
+        <a href="./{{ user.username }}" class="button">Ver sua atividade</a>
+        <span>Clone ou configure seu repostiório git para: <br>{{ location }}</span>
+      </div>
+    {% endif %}
   </main>
 {% endblock %}

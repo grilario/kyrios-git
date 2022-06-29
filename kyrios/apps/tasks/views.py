@@ -17,23 +17,24 @@ from apps.repositories.views import _parse_repo_url
 
 
 @login_required
-def create(request: HttpRequest, communityID):
-  # try:
+def create(request, communityID):
+  try:
     community = Community.objects.get(pk=communityID)
     member = Member.objects.get(account=request.user, community=community)
 
     if not member.isOrganizer:
-      return HttpResponseNotAllowed()
+      raise
 
     if request.POST:
       form = TaskForm(request.POST)
       
       if form.is_valid():
           form.instance.community = community
+          form.instance.account = request.user
           form.save()
 
-          for file in request.FILES.values():
-            Attachment.objects.create(task=form.instance, filename=file.name, file=file)
+          for file in request.FILES.getlist('file'):
+            Attachment.objects.create(task=form.instance, file=file)
 
           return redirect('/community/' + str(communityID))
   
@@ -44,8 +45,8 @@ def create(request: HttpRequest, communityID):
     }
 
     return render(request, 'tasks/create.html', context)
-  # except:
-  #   return HttpResponseNotFound()
+  except:
+    raise Http404()
 
 @login_required
 def edit(request: HttpRequest, communityID, taskID):
@@ -61,7 +62,6 @@ def edit(request: HttpRequest, communityID, taskID):
       form = TaskForm(request.POST, instance=task)
       
       if form.is_valid():
-          form.instance.community = community
           form.save()
 
           for file in request.FILES.values():
@@ -75,9 +75,9 @@ def edit(request: HttpRequest, communityID, taskID):
       'communityID': str(communityID)
     }
 
-    return render(request, 'tasks/create.html', context)
+    return render(request, 'tasks/edit.html', context)
   except:
-    return HttpResponseNotFound()
+    raise Http404()
 
 @login_required
 def delete(request: HttpRequest, communityID, taskID):
@@ -93,7 +93,7 @@ def delete(request: HttpRequest, communityID, taskID):
 
     return redirect('/community/' + communityID)
   except:
-    return HttpResponseNotFound()
+    raise Http404()
 
 @login_required
 def list(request, communityID):
@@ -109,29 +109,31 @@ def list(request, communityID):
     return render(request, 'tasks/list.html', context)
 
   except:
-    return HttpResponseNotFound()
+    raise Http404()
 
 @login_required
-def get(request, communityID, taskID, rev='HEAD'):
-  try:
-    repo_name = request.user.username + '_' + taskID
-
+def get(request, communityID, taskID):
+  # try:
     task = Task.objects.get(pk=taskID, community=communityID)
     attachments = Attachment.objects.filter(task=task)
-    requested_repo = Repo(Repo.get_repository_location(request.user.username, repo_name))
-    objects = _parse_repo_url(request.path_info, requested_repo, rev)
+    member = Member.objects.get(account=request.user)
+    repositories = RepositoryTask.objects.filter(task=task).values_list('repository')
+    accounts = Repository.objects.filter(pk__in=repositories).values_list('owner')
+    shipments = Account.objects.filter(pk__in=accounts)
+
 
     context = {
+      'user': request.user,
       'task': task,
       'attachments': attachments,
       'location': 'http://localhost:8000/community/{}/task/{}/'.format(communityID, taskID),
-      'repo_lsmsg': requested_repo.get_latest_status,
-      'objects': objects,
+      'isOrganizer': member.isOrganizer,
+      'shipments': shipments
     }
 
     return render(request, 'tasks/detail.html', context)
-  except:
-    return HttpResponseNotFound()
+  # except:
+  #   raise Http404()
     
 @require_http_methods(['GET'])
 def get_info_refs(request: HttpRequest, communityID, taskID):
@@ -170,20 +172,23 @@ def get_info_refs(request: HttpRequest, communityID, taskID):
 @require_http_methods(['POST'])
 @csrf_exempt
 def service_rpc(request, communityID, taskID):
-  if request.META.get('HTTP_AUTHORIZATION'):
-    user = base_auth(request.META['HTTP_AUTHORIZATION'])
-    if not user:
-      return HttpResponseForbidden('Access forbidden.')
-  else:
-    res = HttpResponse()
-    res.status_code = 401
-    res['WWW-Authenticate'] = 'Basic'
-    return res
+  try:
+    if request.META.get('HTTP_AUTHORIZATION'):
+      user = base_auth(request.META['HTTP_AUTHORIZATION'])
+      if not user:
+        return HttpResponseForbidden('Access forbidden.')
+    else:
+      res = HttpResponse()
+      res.status_code = 401
+      res['WWW-Authenticate'] = 'Basic'
+      return res
 
-  user = Account.objects.get(username=user)
+    user = Account.objects.get(username=user)
 
-  requested_repo = Repo(Repo.get_repository_location(user.username, taskID))
-  response = GitResponse(service=request.path_info.split('/')[-1], action=GIT_ACTION_RESULT,
-                          repository=requested_repo, data=request.body)
+    requested_repo = Repo(Repo.get_repository_location(user.username, taskID))
+    response = GitResponse(service=request.path_info.split('/')[-1], action=GIT_ACTION_RESULT,
+                            repository=requested_repo, data=request.body)
 
-  return response.get_http_service_rpc()
+    return response.get_http_service_rpc()
+  except:
+    raise Http404()
