@@ -1,8 +1,12 @@
+from itertools import chain
+
+from email.message import Message
 from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
 from apps.tasks.models import Task
+from apps.conversations.models import Message
 
 from .models import Community, Member
 from .forms import CommunityForm
@@ -27,20 +31,25 @@ def createCommunity(request):
 
 @login_required()
 def getCommunity(request, communityID):
-  try:
+  # try:
     community = Community.objects.get(pk=communityID)
     tasks = Task.objects.filter(community=community)
+    messages = Message.objects.filter(community=community)
     member = Member.objects.get(community=community, account=request.user)
+
+    activities = sorted(
+    chain(tasks, messages),
+    key=lambda instance: instance.created_at, reverse=True)
 
     context = {
       'community': community,
-      'activities': tasks,
+      'activities': activities,
       'isOrganizer': member.isOrganizer
     }
 
     return render(request, 'communities/detail.html', context)
-  except:
-    raise Http404()
+  # except:
+  #   raise Http404()
 
 @login_required()
 def editCommunity(request, communityID):

@@ -63,6 +63,10 @@
   border-radius: 15px;
   padding: 2rem;
 
+  &:not(:first-child) {
+    margin-top: 2rem;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -84,6 +88,14 @@
       & > span {
         font-weight: 400;
       }
+
+      a {
+        color: var(--color-text);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
     
     svg {
@@ -99,6 +111,11 @@
   }
 
   .content {
+    a:hover .title,
+    a:hover .message {
+      text-decoration: underline;
+    }
+
     .title {
       font-size: 1.4rem;
       font-weight: 700;

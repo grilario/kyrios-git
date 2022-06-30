@@ -37,14 +37,24 @@
     <div class="activities">
       {% for activity in activities %}
       <div class="activity">
+        {% if activity.delivery_to %}
         <a href="./task/{{ activity.id }}">
+        {% else %}
+        <a href="./message/{{ activity.id }}">
+        {% endif %}
         <div class="header">
           {% if activity.account.picture %}
           <img src="/media/{{ activity.account.get_picture }}_40x.jpg" class="profile">
           {% else %}
           <img src="{% static 'images/profile.jpg' %}" class="profile">
           {% endif %}
-          <p class="name">{{ activity.account.username }} <span>postou uma nova atividade</span></p>
+          <p class="name">{{ activity.account.username }} <span>
+            {% if activity.delivery_to %}
+              postou uma nova atividade
+            {% else %}
+              postou uma nova mensagem
+            {% endif %}
+          </span></p>
         </div>
         <div class="divider"></div>
         <div class="content">
@@ -52,8 +62,12 @@
           <p class="message">{{ activity.description }}</p>
         </div>
         <div class="footer">
+          {% if activity.delivery_to %}
           <span class="time">Data de entrega: {{ activity.delivery_to }}</span>
-          <span class="time">{{ activity.created_at }}</span>
+          {% else %}
+          <span class="time"></span>
+          {% endif %}
+          <span class="time">Em: {{ activity.created_at }}</span>
         </div>
         </a>
       </div>

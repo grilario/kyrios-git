@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Kyrios | {{ task.title }} {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/task.css' %}" />
+{% endblock %}
+
+{% block content %}
+  {% include 'header.html' %}
+  <main>
+    <h2 class="title">{{ message.title }}
+      {% if isOrganizer %}
+      <details class="settings">
+        <summary>
+          <i class="bi bi-pencil-square"></i>
+        </summary>
+        <details-menu>
+          <a href="./edit">Editar menssagem</a>
+          <a href="./delete">Excluir mensagem</a>
+        </details-menu>
+      </details>
+      {% endif %}
+    </h2>
+    <p class="description">{{ message.description }}</p>
+
+    <div class="attachments">
+    {% for attachment in attachments %}
+      <div class="attachment">
+        <a href="/media/{{ attachment.link }}">
+          <div class="container">
+            <i class="bi bi-file-earmark"></i>
+          </div>
+          <div class="name">{{ attachment }}</div>
+        </a>
+      </div>
+    {% endfor %}
+    </div>
+  </main>
+{% endblock %}

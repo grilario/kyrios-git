@@ -11,5 +11,6 @@ urlpatterns = [
     path('<str:communityID>/members/', view=views.getCommunity, name="listCommunityMembers"),
     path('<str:communityID>/edit/', view=views.editCommunity, name="editCommunity"),
     path('<str:communityID>/delete/', view=views.deleteCommunity, name="deleteCommunity"),
-    path('<str:communityID>/task/', include('apps.tasks.urls'))
+    path('<str:communityID>/task/', include('apps.tasks.urls')),
+    path('<str:communityID>/message/', include('apps.conversations.urls')),
 ]

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static formbuilder %}
+
+{% block title %} Kyrios | Criar Atividade {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/community.css' %}" />
+{% endblock %}
+
+{% block content %}
+  {% include 'header.html' %}
+  <form enctype="multipart/form-data" action="./" method="post">
+    {% csrf_token %}
+    {{ form|build_form }}
+    <div class="input-group">
+      <div class="help-block">
+        <p>Não é possivel alterar os anexos no momento</p>
+      </div>
+    </div>
+    <button class="button" type="submit">Salvar</button>
+  </form>
+{% endblock %}
+
