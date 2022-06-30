@@ -11,6 +11,7 @@
   {% include 'header.html' %}
   <main>
     <h2 class="title">{{ task.title }}
+      {% if isOrganizer %}
       <details class="settings">
         <summary>
           <i class="bi bi-pencil-square"></i>
@@ -20,8 +21,9 @@
           <a href="./delete">Excluir atividade</a>
         </details-menu>
       </details>
+      {% endif %}
     </h2>
-    <p class="delivery">{{ task.delivery_to }}</p>
+    <p class="delivery">Data de entrega: {{ task.delivery_to }}</p>
     <p class="description">{{ task.description }}</p>
 
     <div class="attachments">

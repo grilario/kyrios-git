@@ -45,3 +45,6 @@ def get_weekday(utc_timestamp):
     """
 
     return tparser.parse(utc_timestamp).isocalendar()[2]
+
+def time_to_datetime(time):
+    return tparser.parse(time)

@@ -33,6 +33,7 @@
             {% endif %}
           </summary>
           <details-menu>
+            <p id="toogle-theme">Mudar tema: Light</p>
             <a href="/account">Configurações</a>
             <a href="/accounts/logout">Sair</a>
           </details-menu>
@@ -40,4 +41,26 @@
       </li>
     </ul>
   </nav>
+  <script>
+    const buttonTheme = document.getElementById('toogle-theme')
+
+    const theme = localStorage.getItem('kyrios-theme') || 'light'
+    if (theme == 'dark') {
+      document.body.setAttribute('theme', 'dark')
+      buttonTheme.textContent = 'Mudar tema: Dark'
+    }
+
+    buttonTheme.addEventListener('click', () => {
+      const theme = localStorage.getItem('kyrios-theme') || 'light'
+      if (theme == 'dark') {
+        document.body.setAttribute('theme', 'light')
+        localStorage.setItem('kyrios-theme', 'light')
+        buttonTheme.textContent = 'Mudar tema: Light'
+        return
+      }
+      document.body.setAttribute('theme', 'dark')
+      localStorage.setItem('kyrios-theme', 'dark')
+      buttonTheme.textContent = 'Mudar tema: Dark'
+    })
+  </script>
 </header>

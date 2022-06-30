@@ -1,49 +1,56 @@
-{# This template is for viewing objects inside a repository. #}
-{% load filters %}
+{% extends 'base.html' %}
+{% load static filters %}
 
-{% if objects %}
-    <p class="repo-message">
-        <i class="fa fa-quote-left"></i> {{ repo_lsmsg }} <i class="fa fa-quote-right"></i>
-    </p>
-    <table id='repo-content'>
-        <tbody>
+{% block title %} Kyrios | Criar Atividade {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/repository.css' %}" />
+{% endblock %}
+
+{% block content %}
+<main>
+    {% include 'header.html' %}
+    {% if objects %}
+    <div class="repository">
+        <div class="repo-message">
+            <p>{{ repo_lsmsg }}</p>
+        </div>
+        <div class="repo-content">
             {% if objects.is_blob %}
-                <tr class="code-view">
-                    <td>
-                        <pre>
-                            <code><br>{{ objects.show }}</code>
-                        </pre>
-                    </td>
-                </tr>
+                <div class="code-view">
+                    <pre>
+                        <code><br>{{ objects.show }}</code>
+                    </pre>
+                </div>
             {% else %}
                 {% for obj in objects %}
-                <tr>
-                    <td class="repo-obj-name" type="{{obj.get_kind}}">
-                        <a href="./{{obj.get_kind}}/{{obj.get_revision}}/{{obj.get_path}}">
+                <div class="content-line">   
+                    <p class="repo-obj-name">
+                        <a href="{{ base_link }}/{{obj.get_kind}}/{{obj.get_revision}}/{{obj.get_path}}">
                             {% if obj.is_tree %}
-                            <i class="fa fa-folder"></i>
-                            {% elif obj.is_blob %}
-                            <i class="obj-icon" ext="{{obj.get_path|obj_ext}}"></i>
+                            <i class="bi bi-folder"></i>
                             {% else %}
-                            <i class="fa fa-file"></i>
+                            <i class="bi bi-file-code"></i>
                             {% endif %}
                             {{obj.get_path|obj_name:'/'}}
                         </a>
-                    </td>
-                    <td class="repo-obj-subject">{{obj.get_subject|ellipsize}}</td>
-                    <td class="moment-date repo-obj-commitdate">{{obj.get_committer_date}}</td>
-                </tr>
+                    </p>
+                    <p class="repo-obj-subject">{{obj.get_subject|ellipsize}}</p>
+                    <p class="moment-date repo-obj-commitdate">{{obj.get_committer_date|timesince }}</p>
+                </div>
                 {% endfor %}
             {% endif %}
-        </tbody>
-    </table>
-    <article class="markdown-preview">
-        {% if objects.is_blob %}
-        {% else %}
-            <h2 class="markdown-title grey-color"></h2>
-            <div class="arrow-down"></div>
-            <div class="markdown-body">
-            </div>
-        {% endif %}
-    </article>
-{% endif %}
+        </div>
+    </div>
+        <article class="markdown-preview">
+            {% if objects.is_blob %}
+            {% else %}
+                <h2 class="markdown-title grey-color"></h2>
+                <div class="arrow-down"></div>
+                <div class="markdown-body">
+                </div>
+            {% endif %}
+        </article>
+    {% endif %}
+</main>
+{% endblock %}

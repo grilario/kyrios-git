@@ -30,10 +30,12 @@ def getCommunity(request, communityID):
   try:
     community = Community.objects.get(pk=communityID)
     tasks = Task.objects.filter(community=community)
+    member = Member.objects.get(community=community, account=request.user)
 
     context = {
       'community': community,
-      'activities': tasks
+      'activities': tasks,
+      'isOrganizer': member.isOrganizer
     }
 
     return render(request, 'communities/detail.html', context)

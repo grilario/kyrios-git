@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 from utils.system import run_command
-from utils.date import time_to_utc
+from utils.date import time_to_utc, time_to_datetime
 
 GIT_BLOB_OBJECT = 'blob'
 GIT_TREE_OBJECT = 'tree'
@@ -145,7 +145,7 @@ class GitBlob(GitObject):
         cmd = 'git log -1 --format="%ci" {0} -- {1}'.format(self.rev, self.path)
 
         git_output = run_command(cmd=cmd, data=None, location=self.repo.location, chw=True)
-        return time_to_utc(git_output.strip())
+        return time_to_datetime(time_to_utc(git_output.strip()))
 
 
     def get_committer_email(self):
@@ -228,7 +228,7 @@ class GitTree(GitObject):
         cmd = 'git log -1 --format="%ci" {0} -- {1}'.format(self.rev, self.path)
 
         git_output = run_command(cmd=cmd, data=None, location=self.repo.location, chw=True)
-        return time_to_utc(git_output.strip())
+        return time_to_datetime(time_to_utc(git_output.strip()))
 
 
     def get_committer_email(self):
@@ -320,7 +320,7 @@ class GitCommit(GitObject):
         cmd='git log -1 --format="%ci" {0}'.format(self.sha1_hash)
 
         git_output = run_command(cmd=cmd, data=None, location=self.repo.location, chw=True)
-        return time_to_utc(git_output.strip())
+        return time_to_datetime(time_to_utc(git_output.strip()))
 
 
     def get_committer_email(self):

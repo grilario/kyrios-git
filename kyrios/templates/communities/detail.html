@@ -14,6 +14,7 @@
       <div class="image">
         <img src="/media/{{ community.pictureName }}_210x.jpg" alt="">
         <h2>{{ community.name }}</h2>
+        {% if isOrganizer %}        
         <details class="settings">
           <summary>
             <i class="bi bi-pencil-square"></i>
@@ -23,6 +24,7 @@
             <a href="/community/{{ community.id }}/delete">Excluir comunidade</a>
           </details-menu>
         </details>
+        {% endif %}
       </div>
     </div>
     <p class="description">{{ community.description }}</p>
@@ -50,6 +52,7 @@
           <p class="message">{{ activity.description }}</p>
         </div>
         <div class="footer">
+          <span class="time">Data de entrega: {{ activity.delivery_to }}</span>
           <span class="time">{{ activity.created_at }}</span>
         </div>
         </a>

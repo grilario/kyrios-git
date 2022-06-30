@@ -4,8 +4,11 @@ from django.views.decorators.http import require_http_methods
 
 from git.object import GitTree, GitBlob, GIT_BLOB_OBJECT, GIT_TREE_OBJECT
 from git.repo import Repo
+from apps.communities.models import Community, Member
+from apps.tasks.models import Task
 from utils.urlparser import partition_url
 
+from utils.date import time_to_datetime
 
 @require_http_methods(['GET'])
 def view_repository(request, communityID, username, repository, rev='HEAD'):
@@ -18,6 +21,16 @@ def view_repository(request, communityID, username, repository, rev='HEAD'):
         path2 = '/' + username + '/' + repository + '.git'
         path = path2 + request.path_info.split(path1)[1]
 
+        try:
+            task = Task.objects.get(pk=repository, community=communityID)
+            community = Community.objects.get(pk=communityID)
+            member = Member.objects.get(community=community, account=request.user)
+        except:
+            raise Http404()
+
+        if not username == request.user.username or not member.isOrganizer:
+            raise Http404()
+
         requested_repo = Repo(Repo.get_repository_location(username, repository))
         objects = _parse_repo_url(path, requested_repo, rev)
 
@@ -25,6 +38,7 @@ def view_repository(request, communityID, username, repository, rev='HEAD'):
             raise Http404()
 
         context = {
+            'base_link': '/community/{}/task/{}/{}'.format(communityID, repository, username),
             'repo_name': repository,
             'repo_owner': username,
             'repo_lsmsg': requested_repo.get_latest_status,

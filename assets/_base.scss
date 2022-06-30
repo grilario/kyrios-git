@@ -161,14 +161,18 @@ details-menu {
   box-shadow: 0px 8px 24px 0px var(--color-shadows);
   padding: 0.8rem 0;
 
-  a {
+  p {
+    cursor: pointer;
+  }
+  
+  a, p {
     display: block;
     padding: 0.5rem 1rem;
     font-size: 1.4rem;
     color: var(--color-text);
   }
 
-  a:hover {
+  a:hover, p:hover {
     background-color: var(--color-secondary);
     color: var(--color-text-light);
   }

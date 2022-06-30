@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpRequest, HttpResponseNotAllowed, HttpResponseNotFound, HttpResponse, HttpResponseForbidden
+from django.http import Http404, HttpRequest, HttpResponseNotAllowed, HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
@@ -8,14 +8,14 @@ from apps.tasks.forms import TaskForm
 from apps.tasks.models import Task, Attachment
 from apps.communities.models import Community, Member
 from apps.repositories.models import Repository, RepositoryTask
+from apps.accounts.models import Account
+from apps.accounts.auth import base_auth
 from git.action import GIT_ACTION_ADVERTISEMENT, GIT_ACTION_RESULT
 from git.http import GitResponse
 from git.repo import Repo
-from apps.accounts.models import Account
-from apps.accounts.auth import base_auth
-from apps.repositories.views import _parse_repo_url 
 
 
+@require_http_methods(['GET','POST'])
 @login_required
 def create(request, communityID):
   try:
@@ -48,6 +48,8 @@ def create(request, communityID):
   except:
     raise Http404()
 
+
+@require_http_methods(['GET','POST'])
 @login_required
 def edit(request: HttpRequest, communityID, taskID):
   try:
@@ -79,6 +81,8 @@ def edit(request: HttpRequest, communityID, taskID):
   except:
     raise Http404()
 
+
+@require_http_methods(['GET'])
 @login_required
 def delete(request: HttpRequest, communityID, taskID):
   try:
@@ -95,6 +99,8 @@ def delete(request: HttpRequest, communityID, taskID):
   except:
     raise Http404()
 
+
+@require_http_methods(['GET'])
 @login_required
 def list(request, communityID):
   try:
@@ -111,12 +117,14 @@ def list(request, communityID):
   except:
     raise Http404()
 
+
+@require_http_methods(['GET'])
 @login_required
 def get(request, communityID, taskID):
-  # try:
+  try:
     task = Task.objects.get(pk=taskID, community=communityID)
     attachments = Attachment.objects.filter(task=task)
-    member = Member.objects.get(account=request.user)
+    member = Member.objects.get(account=request.user, community=communityID)
     repositories = RepositoryTask.objects.filter(task=task).values_list('repository')
     accounts = Repository.objects.filter(pk__in=repositories).values_list('owner')
     shipments = Account.objects.filter(pk__in=accounts)
@@ -132,9 +140,10 @@ def get(request, communityID, taskID):
     }
 
     return render(request, 'tasks/detail.html', context)
-  # except:
-  #   raise Http404()
-    
+  except:
+    raise Http404()
+
+
 @require_http_methods(['GET'])
 def get_info_refs(request: HttpRequest, communityID, taskID):
   if request.META.get('HTTP_AUTHORIZATION'):
@@ -151,6 +160,8 @@ def get_info_refs(request: HttpRequest, communityID, taskID):
 
   try:
     task = Task.objects.get(pk=taskID, community=communityID)
+    community = Community.objects.get(pk=communityID)
+    Member.objects.get(community=community, account=user)
   except:
       raise Http404()
 
@@ -184,6 +195,13 @@ def service_rpc(request, communityID, taskID):
       return res
 
     user = Account.objects.get(username=user)
+
+    try:
+      task = Task.objects.get(pk=taskID, community=communityID)
+      community = Community.objects.get(pk=communityID)
+      Member.objects.get(community=community, account=user)
+    except:
+      raise Http404()
 
     requested_repo = Repo(Repo.get_repository_location(user.username, taskID))
     response = GitResponse(service=request.path_info.split('/')[-1], action=GIT_ACTION_RESULT,
