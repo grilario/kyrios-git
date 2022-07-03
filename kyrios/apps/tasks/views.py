@@ -102,14 +102,15 @@ def delete(request: HttpRequest, communityID, taskID):
 
 @require_http_methods(['GET'])
 @login_required
-def list(request, communityID):
+def listTasks(request, communityID):
   try:
     community = Community.objects.get(pk=communityID)
     tasks = Task.objects.filter(community=community)
+    member = Member.objects.get(account=request.user, community=community)
 
     context = {
-      'tasks': tasks,
-      'communityID': communityID
+      'activities': tasks,
+      'community': community
     }
 
     return render(request, 'tasks/list.html', context)

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Kyrios | {{ community.name }} {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/community.css' %}" />
+{% endblock %}
+
+{% block content %}
+  {% include 'header.html' %}
+  <main>
+    <div class="navigation">
+      <a href="../">Home</a>
+      <a href="../task/all">Atividades</a>
+      <a href="." class="active">Membros</a>
+    </div>
+    <div class="members-container">
+      {% for member in members %}
+      <div class="member">
+        <div class="user-profile">
+          {% if member.account.picture %}
+          <img class="image" src="/media/{{ member.account.get_picture }}_40x.jpg">
+          {% else %}
+          <img class="image" src="{% static 'images/profile.jpg' %}">
+          {% endif %}
+          <p class="name">{{ member.account.username }}</p>
+        </div>
+        {% if not member.isOrganizer and isOrganizer  %}
+        <a href="#" class="kick">Expulsar</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock %}

@@ -10,6 +10,11 @@
 {% block content %}
   {% include 'header.html' %}
   <main>
+    <div class="navigation">
+      <a href="." class="active">Home</a>
+      <a href="./task/all">Atividades</a>
+      <a href="./members">Membros</a>
+    </div>
     <div class="header">
       <div class="image">
         <img src="/media/{{ community.pictureName }}_210x.jpg" alt="">

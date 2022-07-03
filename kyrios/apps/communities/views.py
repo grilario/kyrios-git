@@ -31,7 +31,7 @@ def createCommunity(request):
 
 @login_required()
 def getCommunity(request, communityID):
-  # try:
+  try:
     community = Community.objects.get(pk=communityID)
     tasks = Task.objects.filter(community=community)
     messages = Message.objects.filter(community=community)
@@ -48,8 +48,8 @@ def getCommunity(request, communityID):
     }
 
     return render(request, 'communities/detail.html', context)
-  # except:
-  #   raise Http404()
+  except:
+    raise Http404()
 
 @login_required()
 def editCommunity(request, communityID):
@@ -103,11 +103,30 @@ def enterCommunity(request: HttpRequest):
     communityID = request.GET.get('communityID')
     community = Community.objects.get(pk=communityID)
 
-    if Member.objects.filter(account=request.user):
-      raise
-    else:
+    try:
+      Member.objects.get(account=request.user, community=community)
+    except:
       Member.objects.create(account=request.user, community=community)
       return redirect('getCommunity', communityID)
 
+    raise Http404()
+  except:
+    raise Http404()
+
+
+@login_required()
+def listMembers(request, communityID):
+  try:
+    community = Community.objects.get(pk=communityID)
+    member = Member.objects.get(community=community, account=request.user)
+    members = Member.objects.filter(community=community)
+
+    context = {
+      'community': community,
+      'members': members,
+      'isOrganizer': member.isOrganizer
+    }
+
+    return render(request, 'communities/members.html', context)
   except:
     raise Http404()

@@ -34,7 +34,7 @@
             {% endif %}
           </summary>
           <details-menu>
-            <p id="toogle-theme">Mudar tema: Light</p>
+            <p id="toggle-theme">Mudar tema: Light</p>
             <a href="/account">Configurações</a>
             <a href="/accounts/logout">Sair</a>
           </details-menu>
@@ -43,12 +43,12 @@
     </ul>
   </nav>
   <script>
-    const buttonTheme = document.getElementById('toogle-theme')
+    const buttonTheme = document.getElementById('toggle-theme')
 
     const theme = localStorage.getItem('kyrios-theme') || 'light'
     if (theme == 'dark') {
       document.body.setAttribute('theme', 'dark')
-      buttonTheme.textContent = 'Mudar tema: Dark'
+      buttonTheme.innerHTML = 'Mudar tema: <i class="bi bi-moon-stars-fill"></i>'
     }
 
     buttonTheme.addEventListener('click', () => {
@@ -56,12 +56,12 @@
       if (theme == 'dark') {
         document.body.setAttribute('theme', 'light')
         localStorage.setItem('kyrios-theme', 'light')
-        buttonTheme.textContent = 'Mudar tema: Light'
+        buttonTheme.innerHTML = 'Mudar tema: <i class="bi bi-brightness-high-fill"></i>'
         return
       }
       document.body.setAttribute('theme', 'dark')
       localStorage.setItem('kyrios-theme', 'dark')
-      buttonTheme.textContent = 'Mudar tema: Dark'
+      buttonTheme.innerHTML = 'Mudar tema: <i class="bi bi-moon-stars-fill"></i>'
     })
   </script>
 </header>
