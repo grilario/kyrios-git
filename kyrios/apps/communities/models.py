@@ -9,6 +9,8 @@ from django.core.files.storage import default_storage
 from io import BytesIO
 from PIL import Image
 
+from apps.accounts.models import Account
+
 from utils.generators import generateID, generateNameFile
 
 UserModel = get_user_model()
@@ -48,6 +50,7 @@ class Member(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     account = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     isOrganizer = models.BooleanField(default=False)
+    isOwner = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

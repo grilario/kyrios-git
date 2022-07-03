@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from apps.tasks.models import Task
 from apps.conversations.models import Message
-
+from apps.accounts.models import Account
 from .models import Community, Member
 from .forms import CommunityForm
 
@@ -18,7 +18,7 @@ def createCommunity(request):
 
     if form.is_valid():
       form.save()
-      Member.objects.create(community=form.instance, account=request.user, isOrganizer=True)
+      Member.objects.create(community=form.instance, account=request.user, isOrganizer=True, isOwner=True)
       
       return redirect('getCommunity', communityID=form.instance.id)
   
@@ -128,5 +128,46 @@ def listMembers(request, communityID):
     }
 
     return render(request, 'communities/members.html', context)
+  except:
+    raise Http404()
+
+
+@login_required()
+def expulseMember(request, communityID, username):
+  try:
+    community = Community.objects.get(pk=communityID)
+    member = Member.objects.get(community=community, account=request.user)
+    accountToExpulse = Account.objects.get(username=username)
+    memberToExpulse = Member.objects.get(account=accountToExpulse, community=community)
+
+    if not member.isOrganizer or memberToExpulse.isOrganizer:
+      raise Http404()
+    
+    memberToExpulse.delete()
+    return redirect('listCommunityMembers', communityID=communityID)
+  except:
+    raise Http404()
+
+@login_required()
+def turnOrganizer(request, communityID, username):
+  try:
+    community = Community.objects.get(pk=communityID)
+    member = Member.objects.get(community=community, account=request.user)
+    accountToOrganizer = Account.objects.get(username=username)
+    memberToOrganizer = Member.objects.get(account=accountToOrganizer, community=community)
+
+    if not member.isOrganizer:
+      raise Http404()
+    
+    if memberToOrganizer.isOwner or member.account == accountToOrganizer:
+      raise Http404()
+    
+    if memberToOrganizer.isOrganizer:
+      memberToOrganizer.isOrganizer = False
+    else:
+      memberToOrganizer.isOrganizer = True
+    memberToOrganizer.save()
+
+    return redirect('listCommunityMembers', communityID=communityID)
   except:
     raise Http404()
