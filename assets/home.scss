@@ -2,7 +2,7 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   gap: 5rem;
   width: 100%;
@@ -250,7 +250,9 @@
   .background {
     position: absolute;
     top: 0;
+    width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 
   .content {
@@ -297,16 +299,11 @@
     align-items: center;
   }
 
-  .subtitle {
-    text-align: center;
-  }
-
   .repositories {
     display: none;
   }
 
-  .activities {
-    width: 95%;
-    max-width: 850px;
+  .communities {
+    max-width: none;
   }
 }
