@@ -57,7 +57,7 @@ def editCommunity(request, communityID):
     community = Community.objects.get(pk=communityID)
 
     user = request.user
-    member = Member.objects.get(account=user)
+    member = Member.objects.get(account=user, community=community)
 
     if not member.isOrganizer:
       raise
@@ -66,8 +66,8 @@ def editCommunity(request, communityID):
       form = CommunityForm(request.POST, request.FILES, instance=community)
 
       if form.is_valid():
+        form.instance.community = community
         form.save()
-        Member.objects.create(community=form.instance, account=request.user, isOrganizer=True)
         
         return redirect('getCommunity', communityID=form.instance.id)
     
@@ -86,7 +86,7 @@ def deleteCommunity(request, communityID):
     community = Community.objects.get(pk=communityID)
 
     user = request.user
-    member = Member.objects.get(account=user)
+    member = Member.objects.get(account=user, community=community)
 
     if not member.isOrganizer:
       raise

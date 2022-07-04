@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 
-from apps.accounts.forms import UserForm
+from apps.accounts.forms import UserForm, UserEditForm
 
 def register(request):
   if request.POST:
@@ -22,14 +22,14 @@ def register(request):
 @login_required
 def edit(request):
   if request.POST:
-    form = UserForm(request.POST, request.FILES, instance=request.user)
+    form = UserEditForm(request.POST, request.FILES, instance=request.user)
 
     if form.is_valid():
       form.save()
 
       return redirect('/')
   
-  form = UserForm(instance=request.user)
+  form = UserEditForm(instance=request.user)
   context = {
     'form': form
   }

@@ -5,12 +5,17 @@
 
 {% block style %}
   <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+  <style>
+    form .input-group:nth-child(5) {
+      display: none;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
   <h1 class="title text-center" >Editar perfil</h1>
-  <div class="form-container" enctype="multipart/form-data">
-      <form action="/account" method="post">
+  <div class="form-container">
+      <form action="/account" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form|build_form }}
           <button class="button" type="submit">Salvar</button>
