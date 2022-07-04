@@ -10,7 +10,7 @@ from apps.conversations.models import Message
 
 def index(request: HttpRequest):
   if not request.user.is_authenticated:
-    return HttpResponse('Tururu')
+    return render(request, 'landing.html', {})
 
   
   user = Account.objects.get(pk=request.user.id)

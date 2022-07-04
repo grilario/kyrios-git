@@ -1,0 +1,213 @@
+@use 'base';
+
+header {
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+
+  .logo img {
+    height: 2rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .button {
+      font-size: 1.4rem;
+      padding: .8rem 2rem;
+      border: 2px solid transparent;
+      background-color: var(--color-secondary);
+    }
+
+    .login .button {
+      background: none;
+    }
+    
+    .login .button:hover {
+      border: 2px solid var(--color-text);
+    }
+
+    .signup .button:hover {
+      background: none;
+      border: 2px solid var(--color-secondary);
+    }
+  }
+}
+
+.container {
+  min-height: calc(90vh - 6rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem;
+
+  h1 {
+    font-size: 8rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .text-background {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .text-background span {
+    background-image: linear-gradient(90deg, #F72585, #0044FF);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    z-index: 1;
+    position: relative;
+    opacity: 0;
+  }
+
+  .text-background::before {
+    content:  attr(text);
+    position: absolute;
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: var(--color-text);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    user-select: none;
+  }
+
+  .text-background:first-child {
+    span {
+      animation: text-animation-gradient-1 8s ease infinite;
+    }
+
+    &::before {
+      animation: text-animation-span-1 8s ease infinite;
+    }
+  }
+
+  .text-background:nth-child(2) {
+    span {
+      animation: text-animation-gradient-2 8s ease infinite;
+    }
+
+    &::before {
+      animation: text-animation-span-2 8s ease infinite;
+    }
+  }
+
+  .text-background:last-child {
+    span {
+      animation: text-animation-gradient-3 8s ease infinite;
+    }
+
+    &::before {
+      animation: text-animation-span-3 8s ease infinite;
+    }
+  }
+}
+
+@keyframes text-animation-gradient-1 {
+  0%,16.667%,to {
+    opacity: 1
+  }
+
+  33.333%,83.333% {
+    opacity: 0
+  }
+}
+
+@keyframes text-animation-span-1 {
+  0%,16.667%,to {
+    opacity: 0
+  }
+
+  25%,91.667% {
+    opacity: 1
+  }
+}
+
+@keyframes text-animation-gradient-2 {
+  0%,to {
+    opacity: 0
+  }
+
+  33.333%,50% {
+    opacity: 1
+  }
+
+  16.667%,66.667% {
+    opacity: 0
+  }
+}
+
+@keyframes text-animation-span-2 {
+  0%,to {
+    opacity: 1
+  }
+
+  33.333%,50% {
+    opacity: 0
+  }
+
+  25%,58.333% {
+    opacity: 1
+  }
+}
+
+@keyframes text-animation-gradient-3 {
+  0%,50%,to {
+    opacity: 0
+  }
+
+  66.667%,83.333% {
+    opacity: 1
+  }
+}
+
+@keyframes text-animation-span-3 {
+  0%,58.333%,91.667%,to {
+    opacity: 1
+  }
+
+  66.667%,83.333% {
+    opacity: 0
+  }
+}
+
+@media (max-width: 1000px) {
+  .container h1 {
+      font-size: 6rem;
+  }
+}
+
+@media (max-width: 775px) {
+  .container {
+    padding: 2rem;
+  }
+  .container h1 {
+      font-size: 4rem;
+  }
+
+  header .actions .button {
+      font-size: 1.2rem;
+      padding: .5rem 1.6rem;
+    }
+}
+
+@media (max-width: 550px) {
+  .container h1 {
+      font-size: 3rem;
+  }
+}
+
+@media (max-width: 440px) {
+  .container h1 {
+      font-size: 2.4em;
+  }
+}
