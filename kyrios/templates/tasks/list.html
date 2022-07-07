@@ -18,7 +18,7 @@
     <div class="activities">
       {% for activity in activities %}
       <div class="activity">
-        <a href="./task/{{ activity.id }}">
+        <a href="../../task/{{ activity.id }}">
         <div class="header">
           {% if activity.account.picture %}
           <img src="/media/{{ activity.account.get_picture }}_40x.jpg" class="profile">

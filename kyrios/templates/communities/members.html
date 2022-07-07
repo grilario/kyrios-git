@@ -28,10 +28,10 @@
         </div>
         <div class="actions">
           {% if member.isOrganizer %}
-            {% if member.isOwner or member.account.username == user.username  %}
-              <i class="organizer bi bi-star-fill" title="Organizador"></i>
-            {% else %}
+            {% if member.isOwner %}
               <a class="organizer" href="../member/turn-organizer/{{ member.account.username }}" title="Remover organizador" ><i class="organizer bi bi-star-fill"></i></a>
+            {% else %}
+              <i class="organizer bi bi-star-fill" title="Organizador"></i>
             {% endif %}
           {% elif not member.isOrganizer and isOrganizer  %}
             <a class="organizer" href="../member/turn-organizer/{{ member.account.username }}" title="Tornar organizador" ><i class="bi bi-star"></i></a>

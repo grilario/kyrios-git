@@ -44,8 +44,8 @@
         <h3>Envios</h3>
         {% for shipment in shipments %}
           <a href="./{{ shipment.username }}" class="shipment">
-            {% if user.picture %}
-            <img src="/media/{{ user.get_picture }}_40x.jpg">
+            {% if shipment.picture %}
+            <img src="/media/{{ shipment.get_picture }}_40x.jpg">
             {% else %}
             <img src="{% static 'images/profile.jpg' %}">
             {% endif %}

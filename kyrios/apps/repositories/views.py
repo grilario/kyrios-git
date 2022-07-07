@@ -16,19 +16,18 @@ def view_repository(request, communityID, username, repository, rev='HEAD'):
         View for showing repository objects inside the given revision (either trees or blobs).
     """
     try:
-
         path1 = '/community' + '/' + communityID + '/' + 'task' + '/' + repository + '/' + username
         path2 = '/' + username + '/' + repository + '.git'
         path = path2 + request.path_info.split(path1)[1]
 
         try:
-            task = Task.objects.get(pk=repository, community=communityID)
             community = Community.objects.get(pk=communityID)
+            task = Task.objects.get(pk=repository, community=community)
             member = Member.objects.get(community=community, account=request.user)
         except:
             raise Http404()
 
-        if not username == request.user.username or not member.isOrganizer:
+        if not username == request.user.username and not member.isOrganizer:
             raise Http404()
 
         requested_repo = Repo(Repo.get_repository_location(username, repository))
