@@ -19,7 +19,7 @@
       <div class="image">
         <img src="/media/{{ community.pictureName }}_210x.jpg" alt="">
         <h2>{{ community.name }}</h2>
-        {% if isOrganizer %}        
+        {% if isOrganizer %}      
         <details class="settings">
           <summary>
             <i class="bi bi-gear-fill"></i>
@@ -27,6 +27,9 @@
           <details-menu>
             <a href="/community/{{ community.id }}/edit">Editar comunidade</a>
             <a href="/community/{{ community.id }}/delete">Excluir comunidade</a>
+            {% if not isOwner %}
+              <a href="/community/{{ community.id }}/leave"><i class="bi bi-arrow-bar-left"></i> Sair</a>
+            {% endif %}
           </details-menu>
         </details>
         {% else %}

@@ -44,7 +44,8 @@ def getCommunity(request, communityID):
     context = {
       'community': community,
       'activities': activities,
-      'isOrganizer': member.isOrganizer
+      'isOrganizer': member.isOrganizer,
+      'isOwner': member.isOwner
     }
 
     return render(request, 'communities/detail.html', context)
@@ -119,7 +120,7 @@ def listMembers(request, communityID):
   try:
     community = Community.objects.get(pk=communityID)
     member = Member.objects.get(community=community, account=request.user)
-    members = Member.objects.filter(community=community)
+    members = Member.objects.filter(community=community).order_by('-isOrganizer')
 
     context = {
       'community': community,
