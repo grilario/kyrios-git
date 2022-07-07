@@ -45,11 +45,20 @@
       </div>
     </div>
     <p class="description">{{ community.description }}</p>
-    {% if community.members.count == 1 %}
-    <p class="members"><span>{{ community.members.count }}</span> membro</p>
-    {% else %}
-    <p class="members"><span>{{ community.members.count }}</span> membros</p>
-    {% endif %}
+    <div class="data">
+      {% if community.members.count == 1 %}
+      <p class="members"><span>{{ community.members.count }}</span> membro</p>
+      {% else %}
+      <p class="members"><span>{{ community.members.count }}</span> membros</p>
+      {% endif %}
+      <div class="share-community">
+        <span id="share-id" title="Compartilhar comunidade">Convidar</span>
+        <span id="copy-id" title="Copiar ID"><i class="bi bi-clipboard"></i></span>
+        <div id="message">
+          <p>ID copiado com sucesso</p>
+        </div>
+      </div>
+    </div>
 
     <div class="activities">
       {% for activity in activities %}
@@ -84,12 +93,43 @@
           {% else %}
           <span class="time"></span>
           {% endif %}
-          <span class="time">Em: {{ activity.created_at }}</span>
+          <span class="time right">Em: {{ activity.created_at }}</span>
         </div>
         </a>
       </div>
       {% endfor %}
     </div>
+    <script>
+      const btnShare = document.getElementById('share-id')
+      const btnCopy = document.getElementById('copy-id')
+      const message = document.getElementById('message')
+
+      function copy() {
+        navigator.clipboard.writeText('{{ community.id }}');
+
+        message.classList.add('active')
+        setTimeout(() => {
+          message.classList.remove('active')
+        }, 2000)
+      }
+
+      btnShare.addEventListener('click', async (e) => {
+        const shareData = {
+          title: 'Entre na comunidade {{ community.name }}',
+          text: '{{ community.description }}',
+          url: location.origin + '/community/enter/?communityID={{ community.id }}',
+        }
+        try {
+          await navigator.share(shareData)
+        } catch {
+          copy()
+        }
+      })
+
+      btnCopy.addEventListener('click', (e) => {
+        copy()
+      })
+    </script>
   </main>
 {% endblock %}
 

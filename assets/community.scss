@@ -146,16 +146,62 @@ p.description {
   padding: 0 1.3rem;
 }
 
-p.members {
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  color: var(--color-text);
-  padding: 0 1.3rem;
+.data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  span {
+  .members {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: var(--color-text);
+    padding: 0 1.3rem;
+  
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .share-community {
+    display: flex;
+    align-items: center;
+    background: var(--color-secondary);
+    color: var(--color-text-light);
+    font-size: 1.2rem;
     font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+
+    #share-id {
+      padding: .6rem 1rem;
+    }
+
+    #copy-id {
+      padding: .6rem;
+      border-left: solid 1px rgba($color: #fff, $alpha: 0.3);
+    }
+
+    #message {
+      position: fixed;
+      background: var(--color-background-widget);
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%);
+      transition: all ease 300ms;
+
+      padding: 1rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+      cursor: initial;
+    }
+
+    #message.active {
+      transform: translate(-50%, -130%);
+    }
   }
 }
+
 
 .activities {
   width: 100%;
@@ -241,6 +287,10 @@ p.members {
     .time {
       font-size: 1.2rem;
       color: var(--color-text);
+    }
+    
+    .time.right {
+      text-align: right;
     }
   }
 

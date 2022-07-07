@@ -98,14 +98,17 @@ def deleteCommunity(request, communityID):
   except:
     raise Http404()
 
-@login_required
 def enterCommunity(request: HttpRequest):
   try:
     communityID = request.GET.get('communityID')
     community = Community.objects.get(pk=communityID)
 
+    if request.headers.get('user-agent').__contains__('WhatsApp'):
+      return render(request, 'communities/bot.html', { 'community': community })
+
     try:
       Member.objects.get(account=request.user, community=community)
+      return redirect('getCommunity', communityID)
     except:
       Member.objects.create(account=request.user, community=community)
       return redirect('getCommunity', communityID)
