@@ -4,7 +4,8 @@
 {% block title %} Kyrios | Criar Atividade {% endblock %}
 
 {% block style %}
-  <link rel="stylesheet" href="{% static 'css/repository.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/repository.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/atom-one-dark.min.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -19,7 +20,7 @@
             {% if objects.is_blob %}
                 <div class="code-view">
                     <pre>
-                        <code><br>{{ objects.show }}</code>
+                        <code ><br>{{ objects.show }}</code>
                     </pre>
                 </div>
             {% else %}
@@ -53,4 +54,6 @@
         </article>
     {% endif %}
 </main>
+<script src="{% static 'js/highlight.min.js' %}"></script>
+<script>hljs.highlightAll();</script>
 {% endblock %}
