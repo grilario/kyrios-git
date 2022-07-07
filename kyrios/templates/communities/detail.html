@@ -22,11 +22,20 @@
         {% if isOrganizer %}        
         <details class="settings">
           <summary>
-            <i class="bi bi-pencil-square"></i>
+            <i class="bi bi-gear-fill"></i>
           </summary>
           <details-menu>
             <a href="/community/{{ community.id }}/edit">Editar comunidade</a>
             <a href="/community/{{ community.id }}/delete">Excluir comunidade</a>
+          </details-menu>
+        </details>
+        {% else %}
+        <details class="settings">
+          <summary>
+            <i class="bi bi-gear-fill"></i>
+          </summary>
+          <details-menu>
+            <a href="/community/{{ community.id }}/leave"><i class="bi bi-arrow-bar-left"></i> Sair</a>
           </details-menu>
         </details>
         {% endif %}

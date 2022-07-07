@@ -124,7 +124,8 @@ def listMembers(request, communityID):
     context = {
       'community': community,
       'members': members,
-      'isOrganizer': member.isOrganizer
+      'isOrganizer': member.isOrganizer,
+      'isOwner': member.isOwner
     }
 
     return render(request, 'communities/members.html', context)
@@ -169,5 +170,20 @@ def turnOrganizer(request, communityID, username):
     memberToOrganizer.save()
 
     return redirect('listCommunityMembers', communityID=communityID)
+  except:
+    raise Http404()
+
+@login_required()
+def leave(request, communityID):
+  try:
+    community = Community.objects.get(pk=communityID)
+    member = Member.objects.get(community=community, account=request.user)
+
+    if member.isOwner:
+      raise Http404()
+    
+    member.delete()
+
+    return redirect('/')
   except:
     raise Http404()
