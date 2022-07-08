@@ -17,7 +17,7 @@
           </summary>
           <details-menu>
             <a href="/community/create">Criar comunidade</a>
-            {% if community %}
+            {% if community and isOrganizer %}
             <a href="/community/{{ community.id }}/task/create">Criar atividade</a>
             <a href="/community/{{ community.id }}/message/create">Criar menssagem</a>
             {% endif %}
