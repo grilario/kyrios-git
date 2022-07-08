@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Kyrios | Search {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/search.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+    {% include 'header.html' %}
+    <form method="get" action=".">
+        <div class="input">
+            <input type="search" name="q" value="{{ query }}" id="id_q">
+            <label for="button-search">
+                <i class="bi bi-search"></i>
+            </label>
+        </div>
+        <input type="submit" id="button-search" value="Search">
+        <input type="hidden" name="models" value="communities.community" id="id_models_0" checked="">
+    </form>
+
+
+        {% if query %}
+        
+        <div class="results">
+                <h3>Resultados</h3>
+                {% for result in page.object_list %}
+                <div class="community">
+                    <img class="background" src="/media/{{ result.object.pictureName }}_70x.jpg" alt="">
+                    <a class="content" href="/community/{{result.object.id}}">
+                    <h3>{{ result.object.name }}</h3>
+                    <p>{{ result.object.description }}</p>
+                    <p>{{ result.object.members.count }}
+                        {% if result.object.members.count == 1 %}
+                        membro
+                        {% else %}
+                        membros
+                        {% endif %}
+                    </p>
+                    </a>
+                </div>
+                {% empty %}
+                <p>Nenhum resultado para a pesquisa.</p>
+                {% endfor %}
+            </div>
+
+            {% if page.has_previous or page.has_next %}
+                <div class="pagination">
+                    <span>{% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}<i class="bi bi-arrow-left"></i> Anterior{% if page.has_previous %}</a>{% endif %}</span>
+                    <span>|</span>
+                    <span>{% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Próxima <i class="bi bi-arrow-right"></i>{% if page.has_next %}</a>{% endif %}</span>
+                </div>
+            {% endif %}
+        {% else %}
+        {% endif %}
+{% endblock %}

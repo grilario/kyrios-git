@@ -13,5 +13,6 @@ urlpatterns = [
     path('', include('apps.accounts.urls')),
     path('community/', include('apps.communities.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('search/', include('haystack.urls')),
     path('account', edit, name="profile")
 ]
