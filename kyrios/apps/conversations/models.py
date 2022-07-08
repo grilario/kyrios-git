@@ -25,7 +25,7 @@ class Attachment(models.Model):
     def __str__(self):
         uuid, filename = self.file.name.split('_', 1)
 
-        return uuid + '/' + filename
+        return filename
         
     def link(self):
         uuid, filename = self.file.name.split('_', 1)
