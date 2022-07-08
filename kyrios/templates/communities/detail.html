@@ -17,7 +17,11 @@
     </div>
     <div class="header">
       <div class="image">
-        <img src="/media/{{ community.pictureName }}_210x.jpg" alt="">
+        {% if community.pictureName %}
+        <img class="background" src="/media/{{ community.pictureName }}_210x.jpg" alt="">
+        {% else %}
+        <img class="background" src="/static/images/community.jpg" alt="">
+        {% endif %}
         <h2>{{ community.name }}</h2>
         {% if isOrganizer %}      
         <details class="settings">

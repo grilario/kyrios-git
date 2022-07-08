@@ -84,7 +84,11 @@
 
     {% for community in communities %}
     <div class="community">
+      {% if community.pictureName %}
       <img class="background" src="/media/{{ community.pictureName }}_70x.jpg" alt="">
+      {% else %}
+      <img class="background" src="/static/images/community.jpg" alt="">
+      {% endif %}
       <a class="content" href="/community/{{community.id}}">
         <h3>{{ community.name }}</h3>
         <p>{{ community.description }}</p>

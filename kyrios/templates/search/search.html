@@ -28,7 +28,11 @@
                 <h3>Resultados</h3>
                 {% for result in page.object_list %}
                 <div class="community">
-                    <img class="background" src="/media/{{ result.object.pictureName }}_70x.jpg" alt="">
+                    {% if community.pictureName %}
+                    <img class="background" src="/media/{{ community.pictureName }}_70x.jpg" alt="">
+                    {% else %}
+                    <img class="background" src="/static/images/community.jpg" alt="">
+                    {% endif %}
                     <a class="content" href="/community/{{result.object.id}}">
                     <h3>{{ result.object.name }}</h3>
                     <p>{{ result.object.description }}</p>
