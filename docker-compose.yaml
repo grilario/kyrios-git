@@ -23,10 +23,16 @@ services:
       - MYSQL_PASSWORD=123
     ports:
       - "3306:3306"
-
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 10s
+            retries: 10
+            
   web:
     build: .
-    command: python kyrios/manage.py runserver 0.0.0.0:8000
+    command: bash -c "
+      python kyrios/manage.py migrate 
+      && python kyrios/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
@@ -38,5 +44,7 @@ services:
       - MYSQL_HOST=db
       - MYSQL_PORT=3306
     depends_on:
-      - db
-      - elasticsearch
+      db:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_started
