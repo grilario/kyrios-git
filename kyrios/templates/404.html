@@ -1,0 +1,40 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Kyrios | 404{%endblock%} 
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <style>
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h1 {
+      font-size: 8.2rem;
+      color: var(--color-primary);
+    }
+    p {
+      font-size: 1.4rem;
+      color: var(--color-text);
+    }
+
+    a {
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--color-primary);
+    }
+  </style>
+{% endblock%} 
+
+{% block content %}
+  <main>
+    <h1>404</h1>
+    <p>Página não encontrada</p>
+    <a href="/">Voltar ao início</a>
+  </main>
+{% endblock %}

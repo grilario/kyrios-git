@@ -108,6 +108,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+STATIC_ROOT = BASE_DIR / '../static'
+
 GIT_DEPOSIT_ROOT = BASE_DIR / '../uploads/repositories'
 
 MEDIA_ROOT = BASE_DIR / '../uploads/files'

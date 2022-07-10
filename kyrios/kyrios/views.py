@@ -30,3 +30,6 @@ def index(request: HttpRequest):
   }
 
   return render(request, 'index.html', context)
+
+def page_not_found(request, exception):
+  return render(request, '404.html', {})
