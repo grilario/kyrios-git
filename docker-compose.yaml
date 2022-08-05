@@ -1,50 +1,29 @@
-version: "3.8"
+version: "3.9"
    
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.2
-    environment:
-      discovery.type: "single-node"
-      ES_JAVA_OPTS: "-Xms2g -Xmx2g"
-      xpack.security.enabled: false
-    volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-
   db:
-    image: mysql
+    image: postgres
     volumes:
-      - ./data/db:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      - MYSQL_DATABASE=kyrios
-      - MYSQL_ROOT_PASSWORD=123
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=123
-    ports:
-      - "3306:3306"
-    healthcheck:
-            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-            timeout: 10s
-            retries: 10
-            
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   web:
     build: .
-    command: bash -c "
-      python kyrios/manage.py migrate 
-      && python kyrios/manage.py runserver 0.0.0.0:8000"
+    command: python kyrios/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     environment:
-      - MYSQL_DATABASE=kyrios
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=123
-      - MYSQL_HOST=db
-      - MYSQL_PORT=3306
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
     depends_on:
-      db:
-        condition: service_healthy
-      elasticsearch:
-        condition: service_started
+      - db
+
+volumes:
+  postgres_data: {}

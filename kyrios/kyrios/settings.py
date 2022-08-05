@@ -60,12 +60,12 @@ WSGI_APPLICATION = 'kyrios.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQL_DATABASE'),
-        'USER': os.environ.get('MYSQL_USER'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'HOST': os.environ.get('MYSQL_HOST'),
-        'PORT': os.environ.get('MYSQL_PORT')
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 
@@ -130,6 +130,6 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 15

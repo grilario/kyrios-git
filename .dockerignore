@@ -1,2 +1,10 @@
+.git
+.gitignore
+venv
 node_modules
 data
+assets
+gulpfile.js
+package.json
+package-lock.json
+README.md
