@@ -1,13 +1,10 @@
 import os
-
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = 'django-insecure-!6@^ru*vr6bfb$ncs06*6!%o#0!=@(1i_gqdm*lc@o!xp_l*or'
-
 DEBUG = True
-
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -108,7 +105,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-STATIC_ROOT = BASE_DIR / '../static'
+STATIC_ROOT = '/http/static'
 
 GIT_DEPOSIT_ROOT = BASE_DIR / '../uploads/repositories'
 

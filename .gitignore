@@ -6,3 +6,5 @@ venv
 uploads/files/*
 uploads/repositories/*
 static/
+
+.env
