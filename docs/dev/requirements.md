@@ -25,3 +25,12 @@ This project intention is help teachers, hack town leaders to create communities
 | RF015 | O sistema deve permitir aos membros de uma comunidade comentar em uma atividade            | Média        | Baixa       | RF011       |
 | RF016 | O sistema deve permitir usuários descobrir novas comunidades através de categorias         | Média        | Alta        | RF004       |
 | RF017 | O sistema deve permitir aos administradores de comunidades manterem anexos a posts e atividades | Alta    | Média       | RF011       | 
+
+## Requisitos não Funcionais
+
+| ID     | Descrição                                                                                 |
+| ------ | ----------------------------------------------------------------------------------------- |
+| RNF001 | O sistema deve ser responsivo, apresentar boa navegação no mobile e desktop               |
+| RNF002 | Cada usuário somente pode acessar os dados permitidos para ele                            |
+| RNF003 | O sistema deve ser tolerante a falhas, reiniciando caso ocorra                            |
+
