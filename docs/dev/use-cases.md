@@ -22,3 +22,67 @@ Atores: Usuário, Interfaces: Password Hash, User Repository
 1. Caso ocorra erro na validação dos dados, informar uma mensagem com explicação do erro.
 2. Caso ocorra erro no hash ou ao salvar as informações, informar um mensagem de erro interno no sistema. 
 
+## Autenticação de Usuário
+
+### Descrição
+Usuário informa suas credenciais para conseguir um token de acesso ao sistema facilitando próximas autenticações.
+
+### Atores, interfaces
+Atores: Usuário, Interfaces: Password Hash, User Repository, Authorization
+
+### Fluxo
+
+1. Receber informações do usuário: identification - email ou username, password.
+2. Checar se identification é um email ou username.
+3. Buscar usuário no banco de dados.
+4. Checagem de senha.
+5. Criar access token and refresh token para futuras autenticações do usuário.
+6. Retorna os tokens.
+
+### Fluxo alternativo
+
+1. Caso identification não bata com validações nem de username e email retornar que credenciais são inválidas.
+2. Caso não encontre nenhum usuário no banco de dados retornar que credenciais são inválidas.
+3. Caso as senhas não se coincidem retornar credenciais inválidas.
+
+## Recuperação de senha
+
+### Descrição
+Caso o usuário tenha perdido a senha usar email cadastrado como um método de recuperação
+
+### Atores, interfaces
+Atores: Usuário, Interfaces: User Repository, Email, Hash Password
+
+### Fluxo
+
+1. Receber identification - email ou username.
+2. Checar se identification é um email ou username.
+3. Buscar usuário no banco de dados.
+4. Gerar e armazenar um código de recuperação de 5 minutos e identification recebida associando ao usuário (armazenar um único código por usuário).
+5. Enviar código para email do usuário.
+6. Retornar email escondido parcialmente.
+
+1. Receber código de recuperação, e identification recebida anteriormente.
+2. Buscar no banco de dados o código, identification.
+3. Checar se os dados batem, e se o código não foi expirado.
+4. Gerar um código para receber posteriormente a nova senha (tempo de expiração de 5 minutos).
+5. Retornar código gerado.
+
+1. Receber código gerado, a nova senha e identification recebida anteriormente.
+2. Buscar no banco o código a partir de identification.
+3. Checar se os códigos se coincidem, e se está expirado.
+4. Fazer o hash da nova senha.
+5. Salvar o hash no banco de dados.
+6. Retornar sucesso.
+
+### Fluxo alternativo
+
+1. Caso identification não bata com validações nem de username e email retornar - usuário não encontrado.
+2. Caso não encontrar nenhum usuário no banco retornar - usuário não encontrado.
+
+1. Caso não encontrar nenhum código no banco de dados retornar - código inválido ou expirado.
+2. Caso os códigos não se coincidem ou expirou retornar - código inválido ou expirado.
+
+1. Caso não encontrar nenhum código no banco de dados retornar - código inválido ou expirado.
+2. Caso os códigos não se coincidem ou expirou retornar - código inválido ou expirado.
+
