@@ -26,13 +26,6 @@ var (
 	}
 )
 
-type NewAccount struct {
-	Username string `json:"username" validate:"required,min=2,max=30,username"`
-	Name     string `json:"name" validate:"required,min=8,max=150"`
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=8,max=80,password"`
-}
-
 func (a *NewAccount) Validate() []map[string]string {
 	return util.ValidateStruct(a, validate, accountErrors)
 }

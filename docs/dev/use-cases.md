@@ -32,18 +32,37 @@ Atores: Usuário, Interfaces: Password Hash, User Repository, Authorization
 
 ### Fluxo
 
-1. Receber informações do usuário: identification - email ou username, password.
+#### Criando tokens
+
+1. Receber informações do usuário: identification - email ou username, password, user agent, IP address.
 2. Checar se identification é um email ou username.
 3. Buscar usuário no banco de dados.
-4. Checagem de senha.
+4. Checar se senhas se coincidem.
 5. Criar access token and refresh token para futuras autenticações do usuário.
-6. Retorna os tokens.
+6. Salvar refresh, user agent, IP address no banco de dados.
+6. Retornar os tokens.
+
+#### Revalidando access token
+
+1. Receber informações: refresh token, user agent, IP address.
+2. Buscar refresh token no banco de dados.
+3. Checar se o refresh token foi expirado (2 months).
+4. Gerar um novo access_token.
+5. Modificar user agent, IP address salvos no banco.
+6. Retornar access token gerado.
 
 ### Fluxo alternativo
 
-1. Caso identification não bata com validações nem de username e email retornar que credenciais são inválidas.
-2. Caso não encontre nenhum usuário no banco de dados retornar que credenciais são inválidas.
-3. Caso as senhas não se coincidem retornar credenciais inválidas.
+#### Criando tokens
+
+1. Caso identification não bata com validações nem de username e email retornar 403, credenciais são inválidas.
+2. Caso não encontre nenhum usuário no banco de dados retornar 403, credenciais são inválidas.
+3. Caso as senhas não se coincidem retornar 403, credenciais inválidas.
+
+#### Revalidando access token
+
+1. Caso não encontrar um refresh token retornar - 404, não encontrado.
+2. Caso token foi expirado retornar - 403, token expirado.
 
 ## Recuperação de senha
 
@@ -55,6 +74,8 @@ Atores: Usuário, Interfaces: User Repository, Email, Hash Password
 
 ### Fluxo
 
+#### Código de recuperação de conta
+
 1. Receber identification - email ou username.
 2. Checar se identification é um email ou username.
 3. Buscar usuário no banco de dados.
@@ -62,11 +83,15 @@ Atores: Usuário, Interfaces: User Repository, Email, Hash Password
 5. Enviar código para email do usuário.
 6. Retornar email escondido parcialmente.
 
+#### Código de atualização de senha
+
 1. Receber código de recuperação, e identification recebida anteriormente.
 2. Buscar no banco de dados o código, identification.
 3. Checar se os dados batem, e se o código não foi expirado.
 4. Gerar um código para receber posteriormente a nova senha (tempo de expiração de 5 minutos).
 5. Retornar código gerado.
+
+#### Atualização de senha
 
 1. Receber código gerado, a nova senha e identification recebida anteriormente.
 2. Buscar no banco o código a partir de identification.
@@ -77,11 +102,17 @@ Atores: Usuário, Interfaces: User Repository, Email, Hash Password
 
 ### Fluxo alternativo
 
+#### Código de recuperação de conta
+
 1. Caso identification não bata com validações nem de username e email retornar - usuário não encontrado.
 2. Caso não encontrar nenhum usuário no banco retornar - usuário não encontrado.
 
+#### Código de atualização de senha
+
 1. Caso não encontrar nenhum código no banco de dados retornar - código inválido ou expirado.
 2. Caso os códigos não se coincidem ou expirou retornar - código inválido ou expirado.
+  
+#### Atualização de senha
 
 1. Caso não encontrar nenhum código no banco de dados retornar - código inválido ou expirado.
 2. Caso os códigos não se coincidem ou expirou retornar - código inválido ou expirado.
