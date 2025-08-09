@@ -1,6 +1,7 @@
 package account
 
 import (
+	"errors"
 	"unicode"
 
 	"github.com/grilario/kyrios-git/pkg/util"
@@ -19,15 +20,36 @@ func init() {
 var (
 	validate      *validator.Validate
 	accountErrors = map[string]string{
-		"username": "username must be between 2 and 30 lowercase alphanumeric characters or '.' and '_'",
-		"name":     "name must be between 8 and 150 characters",
-		"email":    "email must be valid",
-		"password": "password must be at least 8 characters and contain one lowercase letter, one uppercase letter, a number and a symbol",
+		"username":       "username must be between 2 and 30 lowercase alphanumeric characters or '.' and '_'",
+		"name":           "name must be between 8 and 150 characters",
+		"email":          "email must be valid",
+		"password":       "password must be at least 8 characters and contain one lowercase letter, one uppercase letter, a number and a symbol",
+		"identification": "identification must be username or email",
+		"user_agent":     "user_agent is required",
+		"ip_address":     "ip_address must be valid ip",
 	}
 )
 
 func (a *NewAccount) Validate() []map[string]string {
 	return util.ValidateStruct(a, validate, accountErrors)
+}
+
+func (a *LoginDetails) Validate() []map[string]string {
+	return util.ValidateStruct(a, validate, accountErrors)
+}
+
+func ValidateIdentification(identification string) (username, email interface{}, error error) {
+	err := validate.Var(identification, "required,email")
+	if err == nil {
+		return nil, identification, nil
+	}
+
+	err = validate.Var(identification, "required,min=2,max=30,username")
+	if err == nil {
+		return identification, nil, nil
+	}
+
+	return nil, nil, errors.New("invalid credentials")
 }
 
 // check if characters is alphanumeric or '_' or '.'

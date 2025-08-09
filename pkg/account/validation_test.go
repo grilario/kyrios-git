@@ -39,3 +39,35 @@ func TestNewAccount(t *testing.T) {
 		}
 	})
 }
+
+func TestValidateIndetification(t *testing.T) {
+	t.Run("Valid Username", func(t *testing.T) {
+		i := "grilario"
+
+		u, email, err := ValidateIdentification(i)
+
+		assert.Nil(t, email)
+		assert.Nil(t, err)
+		assert.Equal(t, i, u)
+	})
+
+	t.Run("Valid email", func(t *testing.T) {
+		i := "any@any.any"
+
+		u, email, err := ValidateIdentification(i)
+
+		assert.Nil(t, u)
+		assert.Nil(t, err)
+		assert.Equal(t, i, email)
+	})
+
+	t.Run("Invalid identification", func(t *testing.T) {
+		i := "Pedrin!"
+
+		u, email, err := ValidateIdentification(i)
+
+		assert.Nil(t, u)
+		assert.Nil(t, email)
+		assert.NotNil(t, err)
+	})
+}
